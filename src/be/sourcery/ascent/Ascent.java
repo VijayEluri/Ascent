@@ -17,7 +17,12 @@ package be.sourcery.ascent;
  *  along with Ascent.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
+
+import android.database.Cursor;
 
 
 public class Ascent {
@@ -38,6 +43,7 @@ public class Ascent {
     private String comment;
     private int stars;
     private int score;
+    private static DateFormat fmt = new SimpleDateFormat("yyyy-MM-dd");
 
     public Ascent() {
     }
@@ -135,6 +141,24 @@ public class Ascent {
 
     public int getScore() {
         return score;
+    }
+
+    public static Ascent fromCursor(Cursor cursor) {
+        Ascent ascent = new Ascent();
+        ascent.setId(cursor.getLong(1));
+        Route route = new Route(cursor.getLong(2), cursor.getString(3), cursor.getString(4),
+                new Crag(cursor.getLong(5), cursor.getString(6), cursor.getString(7)), 0);
+        ascent.setRoute(route);
+        try {
+            ascent.setDate(fmt.parse(cursor.getString(8)));
+        } catch (ParseException e) {
+        }
+        ascent.setScore(cursor.getInt(9));
+        ascent.setStyle(cursor.getInt(10));
+        ascent.setStars(cursor.getInt(11));
+        ascent.setAttempts(cursor.getInt(12));
+        ascent.setComment(cursor.getString(13));
+        return ascent;
     }
 
 }
