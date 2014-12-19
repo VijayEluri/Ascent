@@ -1,5 +1,8 @@
 package be.sourcery.ascent;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
@@ -18,6 +21,7 @@ public class MyListCursorAdapter extends CursorRecyclerViewAdapter<MyListCursorA
 
     private final InternalDB db;
     private Context context;
+    private static DateFormat fmt = new SimpleDateFormat("yyyy-MM-dd");
 
     public MyListCursorAdapter(Context context, Cursor cursor, InternalDB db){
         super(context,cursor);
@@ -43,7 +47,8 @@ public class MyListCursorAdapter extends CursorRecyclerViewAdapter<MyListCursorA
         }
         public void onClick(View v) {
             int position = getPosition();
-            Ascent ascent = db.getAscent(position);
+            long id = MyListCursorAdapter.this.getItemId(position);
+            Ascent ascent = db.getAscent(id);
             editAscent(ascent);
         }
     }
@@ -68,9 +73,9 @@ public class MyListCursorAdapter extends CursorRecyclerViewAdapter<MyListCursorA
     public void onBindViewHolder(ViewHolder viewHolder, Cursor cursor) {
         Ascent ascent = Ascent.fromCursor(cursor);
         viewHolder.nameView.setText(ascent.getRoute().getName());
-        viewHolder.dateView.setText(ascent.getDate().toString());
+        viewHolder.dateView.setText(fmt.format(ascent.getDate()));
         viewHolder.gradeView.setText(ascent.getRoute().getGrade());
-        viewHolder.styleView.setText(ascent.getStyle());
+//        viewHolder.styleView.setText(ascent.getStyle());
         viewHolder.commentView.setText(ascent.getComment());
     }
 }

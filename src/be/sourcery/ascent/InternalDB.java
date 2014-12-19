@@ -378,7 +378,9 @@ public class InternalDB {
 
     public static Cursor getAscentsCursor(SQLiteDatabase database) {
         Cursor cursor = database.query("ascent_routes",
-                new String[] { "_id", "route_id", "route_name", "route_grade", "crag_id", "crag_name", "crag_country", "date", "score", "style", "stars", "attempts", "comment" },
+                new String[] { "_id", "route_id", "route_name", "route_grade", 
+        		"crag_id", "crag_name", "crag_country", "date", "score", "style", 
+        		"stars", "attempts", "comment" },
                 null, null, null, null, "date desc, _id asc");
         return cursor;
     }
@@ -924,10 +926,10 @@ public class InternalDB {
                 db.execSQL("create view ascent_routes as select a._id as _id, r._id as route_id, r.name as route_name, r.grade as route_grade, a.attempts as attempts, a.comment as comment, s._id as style_id, s.short_name as style, s.score as style_score, a.stars as stars, a.date as date, r.crag_id as crag_id, a.score as score, g.score as grade_score, c.name as crag_name from ascents a inner join routes r on a.route_id = r._id inner join styles s on a.style_id = s._id inner join grades g on g.grade = r.grade inner join crag c on r.crag_id = c._id;");
             }
             if (oldVersion == 9) {
-                db.execSQL("drop view ascent_routes;");
                 db.execSQL("create view ascent_routes as select a._id as _id, r._id as route_id, r.name as route_name, r.grade as route_grade, a.attempts as attempts, a.comment as comment, s._id as style_id, s.short_name as style, s.score as style_score, a.stars as stars, a.date as date, r.crag_id as crag_id, a.score as score, g.score as grade_score, c.name as crag_name, c._id as crag_id from ascents a inner join routes r on a.route_id = r._id inner join styles s on a.style_id = s._id inner join grades g on g.grade = r.grade inner join crag c on r.crag_id = c._id;");
             }
             if (oldVersion == 10) {
+                db.execSQL("drop view ascent_routes;");
                 db.execSQL("create view ascent_routes as select a._id as _id, r._id as route_id, r.name as route_name, r.grade as route_grade, a.attempts as attempts, a.comment as comment, s._id as style_id, s.short_name as style, s.score as style_score, a.stars as stars, a.date as date, r.crag_id as crag_id, a.score as score, g.score as grade_score, c.name as crag_name, c._id as crag_id, c.country as crag_country from ascents a inner join routes r on a.route_id = r._id inner join styles s on a.style_id = s._id inner join grades g on g.grade = r.grade inner join crag c on r.crag_id = c._id;");
             }
         }

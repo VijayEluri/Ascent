@@ -46,7 +46,6 @@ public class MaterialMainActivity extends MyActivity {
     private static final int REPEAT_REQUEST = 3;
 
     private InternalDB db;
-    private ListView listView;
     private Cursor cursor;
     private RecyclerView recyclerView;
     private MyListCursorAdapter cursorAdapter;
@@ -66,14 +65,9 @@ public class MaterialMainActivity extends MyActivity {
         recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         cursor = db.getAscentsCursor();
-        cursorAdapter = new MyListCursorAdapter(this, cursor);
-//        recyclerView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//            public void onItemClick(AdapterView<?> arg0, View view, int position, long row) {
-//                long id = cursorAdapter.getItemId(position);
-//                Ascent ascent = db.getAscent(id);
-//                editAscent(ascent);
-//            }
-//        });
+        cursor.moveToFirst();
+        cursorAdapter = new MyListCursorAdapter(this, cursor, db);
+        recyclerView.setAdapter(cursorAdapter);
     }
 
     private void update() {

@@ -145,19 +145,19 @@ public class Ascent {
 
     public static Ascent fromCursor(Cursor cursor) {
         Ascent ascent = new Ascent();
-        ascent.setId(cursor.getLong(1));
-        Route route = new Route(cursor.getLong(2), cursor.getString(3), cursor.getString(4),
-                new Crag(cursor.getLong(5), cursor.getString(6), cursor.getString(7)), 0);
+        ascent.setId(cursor.getLong(0));
+        Route route = new Route(cursor.getLong(1), cursor.getString(2), cursor.getString(3),
+                new Crag(cursor.getLong(4), cursor.getString(5), cursor.getString(6)), 0);
         ascent.setRoute(route);
         try {
-            ascent.setDate(fmt.parse(cursor.getString(8)));
+            ascent.setDate(fmt.parse(cursor.getString(7)));
         } catch (ParseException e) {
         }
-        ascent.setScore(cursor.getInt(9));
-        ascent.setStyle(cursor.getInt(10));
-        ascent.setStars(cursor.getInt(11));
-        ascent.setAttempts(cursor.getInt(12));
-        ascent.setComment(cursor.getString(13));
+        ascent.setScore(cursor.getInt(8));
+        ascent.setStyle(cursor.getInt(9));
+        ascent.setStars(cursor.getInt(10));
+        ascent.setAttempts(cursor.getInt(11));
+        ascent.setComment(cursor.getString(12));
         return ascent;
     }
 
